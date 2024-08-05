@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { User } = require("../../models/User/userModel");
 const otpGenerator = require("otp-generator");
+const jwt = require("jsonwebtoken");
 const validateOTP = require("../../helper/validateOTP");
 
 const loginUser = asyncHandler(async (req, res) => {
