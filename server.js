@@ -15,7 +15,7 @@ app.use(
     origin: true,
   })
 );
-// app.use(express.json());
+app.use(express.json());
 app.use("/api", require("./routes/routes"));
 app.use("/images", express.static("upload/images"));
 app.use(errorHandler);
