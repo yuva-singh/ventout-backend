@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const { AdminStory } = require("../../models/Admin/storyModel");
+const { AdminStory, StoryView } = require("../../models/Admin/storyModel");
 
 const createStory = asyncHandler(async (req, res) => {
   const { title, subtitle, description, categoryId } = req.body;
@@ -90,7 +90,40 @@ const deleteStory = asyncHandler(async (req, res) => {
     throw new Error("story not found!");
   }
 
+  await StoryView.deleteMany({ storyId });
+
   res.status(200).json({ message: "Story deleted successfully!" });
+});
+
+////////// Story Viewed Controllers //////////
+const viewStory = asyncHandler(async (req, res) => {
+  const viewerId = req.user;
+  const storyId = req.params.id;
+  const { userType } = req.body;
+
+  await StoryView.create({
+    storyId,
+    viewerId,
+    viewerIdModel: userType,
+  });
+
+  res.status(200).json({ message: "story viewed successfully!" });
+});
+
+const getStoryViewers = asyncHandler(async (req, res) => {
+  const storyId = req.params.id;
+
+  const viewers = await StoryView.find({ storyId }).populate(
+    "viewerId",
+    "name profileImg"
+  );
+
+  if (!viewers) {
+    res.status(404);
+    throw new Error("viewers not found");
+  }
+
+  res.status(200).json(viewers);
 });
 
 module.exports = {
@@ -99,4 +132,6 @@ module.exports = {
   getAllStory,
   getSingleStory,
   deleteStory,
+  viewStory,
+  getStoryViewers,
 };

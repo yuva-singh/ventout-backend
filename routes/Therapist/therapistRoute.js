@@ -12,6 +12,8 @@ const {
   deleteTherapistProfile,
   getAllTherapistByCategory,
   getAllTherapist,
+  suspendTherapist,
+  getAllTherapistForAdmin,
 } = require("../../controllers/Therapist/therapistController");
 const router = express.Router();
 
@@ -36,7 +38,9 @@ router.patch(
   updateKYC
 );
 router.patch("/Availability", validateToken, updateAvailability);
+router.patch("/suspend/:id", suspendTherapist);
 router.get("/all", getAllTherapist);
+router.get("/allForAdmin", getAllTherapistForAdmin);
 router.get("/all/:id", getAllTherapistByCategory);
 router.get("/profile/:id", getTherapistProfile);
 router.delete("/delete", validateToken, deleteTherapistProfile);

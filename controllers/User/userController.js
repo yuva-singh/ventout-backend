@@ -107,6 +107,17 @@ const registerUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "User registered successfully!", user });
 });
 
+const getAllUser = asyncHandler(async (req, res) => {
+  const user = await User.find();
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found!");
+  }
+
+  res.status(200).json(user);
+});
+
 const addProfileImg = asyncHandler(async (req, res) => {
   const userId = req.user;
 
@@ -138,4 +149,5 @@ module.exports = {
   verifyUserOTP,
   registerUser,
   addProfileImg,
+  getAllUser,
 };

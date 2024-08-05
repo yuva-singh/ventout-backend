@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { Wallet, WalletHistory } = require("../../models/Therapist/walletModel");
+const { WithdrawRequest } = require("../../models/Admin/withdrawRequestModel");
 
 const getWallet = asyncHandler(async (req, res) => {
   const therapistId = req.user;
@@ -40,6 +41,11 @@ const withdrawBalance = asyncHandler(async (req, res) => {
   wallet.balance = newBalance;
 
   wallet.save();
+
+  await WithdrawRequest.create({
+    therapistId,
+    amount: withdrawMoney,
+  });
 
   await WalletHistory.create({
     transactionAmount: withdrawMoney,

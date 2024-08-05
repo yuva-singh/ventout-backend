@@ -6,13 +6,13 @@ const therapistSchema = mongoose.Schema(
       type: String,
     },
     profileImg: {
-      type: String
+      type: String,
     },
     aadharCard: {
-      type: String
+      type: String,
     },
     degree: {
-      type: String
+      type: String,
     },
     phone: {
       type: String,
@@ -41,7 +41,7 @@ const therapistSchema = mongoose.Schema(
     category: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Category"
+        ref: "Category",
       },
     ],
     about: {
@@ -52,7 +52,11 @@ const therapistSchema = mongoose.Schema(
     },
     isAvailable: {
       type: Boolean,
-      default: false
+      default: false,
+    },
+    isSuspended: {
+      type: Boolean,
+      default: false,
     },
     registered: {
       type: Boolean,

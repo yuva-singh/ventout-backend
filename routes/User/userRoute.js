@@ -4,6 +4,7 @@ const {
   verifyUserOTP,
   registerUser,
   addProfileImg,
+  getAllUser,
 } = require("../../controllers/User/userController");
 const validateOTP = require("../../helper/validateOTP");
 const validateToken = require("../../middleware/validateToken");
@@ -20,5 +21,6 @@ router.patch(
   uploadToCloudinary("profileImg", ["profileImg"], [1]),
   addProfileImg
 );
+router.get("/all", getAllUser);
 
 module.exports = router;

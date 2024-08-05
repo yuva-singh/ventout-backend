@@ -5,8 +5,11 @@ const {
   getAllStory,
   getSingleStory,
   deleteStory,
+  viewStory,
+  getStoryViewers,
 } = require("../../controllers/Admin/storyController");
 const uploadToCloudinary = require("../../middleware/uploadToCloudnary");
+const validateToken = require("../../middleware/validateToken");
 
 const router = express.Router();
 
@@ -23,5 +26,9 @@ router.put(
 router.get("/all", getAllStory);
 router.get("/single/:id", getSingleStory);
 router.delete("/delete/:id", deleteStory);
+
+////////// Story Viewers Routes //////////
+router.post("/view/:id", validateToken, viewStory);
+router.post("/viewedUsers/:id", getStoryViewers);
 
 module.exports = router;

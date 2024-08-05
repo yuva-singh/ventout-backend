@@ -256,11 +256,39 @@ const updateAvailability = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "Availability updated successfully!" });
 });
 
+const suspendTherapist = asyncHandler(async (req, res) => {
+  const therapistId = req.params.id;
+  const { isSuspended } = req.body;
+
+  const suspend = await Therapist.findByIdAndUpdate(therapistId, {
+    isSuspended,
+  });
+
+  if (!suspend) {
+    res.status(500);
+    throw new Error("Server Error");
+  }
+
+  res.status(201).json({ message: "success!" });
+});
+
 const getAllTherapist = asyncHandler(async (req, res) => {
-  const therapist = await Therapist.find({ isAvailable: true }).populate(
-    "category",
-    "categoryName"
-  );
+  const therapist = await Therapist.find({
+    isSuspended: false,
+  })
+    .populate("category", "categoryName")
+    .sort({ isAvailable: -1 });
+
+  if (!therapist) {
+    res.status(404);
+    throw new Error("Therapist not found!");
+  }
+
+  res.status(200).json(therapist);
+});
+
+const getAllTherapistForAdmin = asyncHandler(async (req, res) => {
+  const therapist = await Therapist.find().populate("category", "categoryName");
 
   if (!therapist) {
     res.status(404);
@@ -326,4 +354,6 @@ module.exports = {
   getTherapistProfile,
   updateAvailability,
   deleteTherapistProfile,
+  suspendTherapist,
+  getAllTherapistForAdmin,
 };
