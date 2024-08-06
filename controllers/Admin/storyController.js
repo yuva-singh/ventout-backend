@@ -59,10 +59,10 @@ const updateStory = asyncHandler(async (req, res) => {
 });
 
 const getAllStory = asyncHandler(async (req, res) => {
-  const stories = AdminStory.find();
+  const stories = await AdminStory.find();
   console.log(stories)
 
-  if (!stories.length) {
+  if (!stories) {
     res.status(404);
     throw new Error("stories not found!");
   }
@@ -84,7 +84,7 @@ const getSingleStory = asyncHandler(async (req, res) => {
 
 const deleteStory = asyncHandler(async (req, res) => {
   const storyId = req.params.id;
-  const story = AdminStory.findByIdAndDelete(storyId);
+  const story = await AdminStory.findByIdAndDelete(storyId);
 
   if (!story) {
     res.status(404);
