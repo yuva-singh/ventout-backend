@@ -81,7 +81,7 @@ const getAllStory = asyncHandler(async (req, res) => {
 
 const getSingleStory = asyncHandler(async (req, res) => {
   const storyId = req.params.id;
-  const story = AdminStory.findById(storyId);
+  const story = await AdminStory.findById(storyId);
 
   if (!story) {
     res.status(404);

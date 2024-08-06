@@ -31,6 +31,6 @@ router.delete("/delete/:id", deleteStory);
 
 ////////// Story Viewers Routes //////////
 router.post("/view/:id", validateToken, viewStory);
-router.post("/viewedUsers/:id", getStoryViewers);
+router.get("/viewedUsers/:id", getStoryViewers);
 
 module.exports = router;

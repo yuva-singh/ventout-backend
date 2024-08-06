@@ -35,32 +35,6 @@ const getCategory = asyncHandler(async (req, res) => {
   res.status(200).json(categories);
 });
 
-// const deleteCategory = asyncHandler(async (req, res) => {
-//   const catId = req.params.id;
-
-//   const category = await Category.findByIdAndDelete(catId);
-
-//   if (!category) {
-//     res.status(404);
-//     throw new Error("data is not found!");
-//   }
-
-//   res.status(200).json({ message: "Category Deleted successfully!" });
-// });
-
-// const getSingleCategory = asyncHandler(async (req, res) => {
-//   const catId = req.params.id;
-
-//   const category = await Category.findById(catId);
-
-//   if (!category) {
-//     res.status(404);
-//     throw new Error("category not found!");
-//   }
-
-//   res.status(200).json(category);
-// });
-
 const updateCategory = asyncHandler(async (req, res) => {
   const catId = req.params.id;
 
