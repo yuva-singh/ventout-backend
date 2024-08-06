@@ -153,7 +153,7 @@ const verifyOTP = asyncHandler(async (req, res) => {
     phone: phone,
     userId: therapistAvailable._id,
     token: accessToken,
-    status: therapistAvailable.status,
+    registrationStatus: therapistAvailable.registered,
   });
 });
 

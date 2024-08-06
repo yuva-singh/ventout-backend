@@ -102,6 +102,13 @@ const forgotPasswordAdmin = asyncHandler(async (req, res) => {
   });
 });
 
+// const getTotalCounts = asyncHandler(async(req, res) => {
+//   const users = await User.countDocuments();
+//   const therapists = await Therapist.countDocuments();
+//   const user = await User.countDocuments();
+//   const user = await User.countDocuments();
+// })
+
 module.exports = {
   registerAdmin,
   loginAdmin,
