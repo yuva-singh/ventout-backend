@@ -60,8 +60,9 @@ const updateStory = asyncHandler(async (req, res) => {
 
 const getAllStory = asyncHandler(async (req, res) => {
   const stories = AdminStory.find();
+  console.log(stories)
 
-  if (!stories) {
+  if (!stories.length) {
     res.status(404);
     throw new Error("stories not found!");
   }
