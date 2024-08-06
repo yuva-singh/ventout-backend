@@ -14,6 +14,7 @@ const {
   getAllTherapist,
   suspendTherapist,
   getAllTherapistForAdmin,
+  updateTherapistFees,
 } = require("../../controllers/Therapist/therapistController");
 const router = express.Router();
 
@@ -39,6 +40,7 @@ router.patch(
 );
 router.patch("/Availability", validateToken, updateAvailability);
 router.patch("/suspend/:id", suspendTherapist);
+router.patch("/fees/:id", updateTherapistFees);
 router.get("/all", getAllTherapist);
 router.get("/allForAdmin", getAllTherapistForAdmin);
 router.get("/all/:id", getAllTherapistByCategory);

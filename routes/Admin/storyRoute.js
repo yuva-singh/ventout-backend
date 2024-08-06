@@ -7,6 +7,7 @@ const {
   deleteStory,
   viewStory,
   getStoryViewers,
+  updateStoryIndex,
 } = require("../../controllers/Admin/storyController");
 const uploadToCloudinary = require("../../middleware/uploadToCloudnary");
 const validateToken = require("../../middleware/validateToken");
@@ -23,6 +24,7 @@ router.put(
   uploadToCloudinary("story", ["image"], [1]),
   updateStory
 );
+router.patch("/index/:id", updateStoryIndex);
 router.get("/all", getAllStory);
 router.get("/single/:id", getSingleStory);
 router.delete("/delete/:id", deleteStory);

@@ -8,6 +8,9 @@ const therapistSchema = mongoose.Schema(
     profileImg: {
       type: String,
     },
+    fees: {
+      type: Number,
+    },
     aadharCard: {
       type: String,
     },

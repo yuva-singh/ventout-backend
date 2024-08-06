@@ -1,5 +1,10 @@
 const asyncHandler = require("express-async-handler");
 const Admin = require("../../models/Admin/adminModel");
+const { User } = require("../../models/User/userModel");
+const Category = require("../../models/Admin/categoryModel");
+const { Therapist } = require("../../models/Therapist/therapistModel");
+const { Review } = require("../../models/Therapist/reviewModel");
+const { AdminStory } = require("../../models/Admin/storyModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -102,15 +107,25 @@ const forgotPasswordAdmin = asyncHandler(async (req, res) => {
   });
 });
 
-// const getTotalCounts = asyncHandler(async(req, res) => {
-//   const users = await User.countDocuments();
-//   const therapists = await Therapist.countDocuments();
-//   const user = await User.countDocuments();
-//   const user = await User.countDocuments();
-// })
+const getTotalCounts = asyncHandler(async (req, res) => {
+  const users = await User.countDocuments();
+  const therapists = await Therapist.countDocuments();
+  const categories = await Category.countDocuments();
+  const stories = await AdminStory.countDocuments();
+  const reviews = await Review.countDocuments();
+
+  res.status(200).json({
+    totalUsers: users,
+    totalTherapists: therapists,
+    totalCategories: categories,
+    totalStories: stories,
+    totalReviews: reviews,
+  });
+});
 
 module.exports = {
   registerAdmin,
   loginAdmin,
   forgotPasswordAdmin,
+  getTotalCounts,
 };

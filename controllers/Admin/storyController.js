@@ -58,9 +58,18 @@ const updateStory = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "Story updated successfully!", story });
 });
 
+const updateStoryIndex = asyncHandler(async (req, res) => {
+  const storyId = req.params.id;
+
+  await AdminStory.findByIdAndUpdate(storyId, {
+    indexTime: Date.now(),
+  });
+
+  res.status(200).json({ message: "Index updated successfully!" });
+});
+
 const getAllStory = asyncHandler(async (req, res) => {
-  const stories = await AdminStory.find();
-  console.log(stories)
+  const stories = await AdminStory.find().sort({ indexTime: -1 });
 
   if (!stories) {
     res.status(404);
@@ -100,12 +109,10 @@ const deleteStory = asyncHandler(async (req, res) => {
 const viewStory = asyncHandler(async (req, res) => {
   const viewerId = req.user;
   const storyId = req.params.id;
-  const { userType } = req.body;
 
   await StoryView.create({
     storyId,
     viewerId,
-    viewerIdModel: userType,
   });
 
   res.status(200).json({ message: "story viewed successfully!" });
@@ -130,6 +137,7 @@ const getStoryViewers = asyncHandler(async (req, res) => {
 module.exports = {
   createStory,
   updateStory,
+  updateStoryIndex,
   getAllStory,
   getSingleStory,
   deleteStory,

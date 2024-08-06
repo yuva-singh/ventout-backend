@@ -272,6 +272,27 @@ const suspendTherapist = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "success!" });
 });
 
+const updateTherapistFees = asyncHandler(async (req, res) => {
+  const therapistId = req.params.id;
+  const { fees } = req.body;
+
+  if (!fees) {
+    res.status(400);
+    throw new Error("Fees fiels is required!");
+  }
+
+  const updateFees = await Therapist.findByIdAndUpdate(therapistId, {
+    fees,
+  });
+
+  if (!updateFees) {
+    res.status(500);
+    throw new Error("Server Error!");
+  }
+
+  res.status(200).json({ message: "Fees updated successfully" });
+});
+
 const getAllTherapist = asyncHandler(async (req, res) => {
   const therapist = await Therapist.find({
     isSuspended: false,
@@ -356,4 +377,5 @@ module.exports = {
   deleteTherapistProfile,
   suspendTherapist,
   getAllTherapistForAdmin,
+  updateTherapistFees,
 };

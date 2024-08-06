@@ -18,6 +18,10 @@ const adminStorySchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
+    indexTime: {
+      type: Date,
+      default: Date.now(),
+    },
   },
   { timestamps: true }
 );
@@ -31,12 +35,7 @@ const adminStoryViewSchema = mongoose.Schema(
     },
     viewerId: {
       type: mongoose.Schema.Types.ObjectId,
-      refPath: "viewedByModel",
-    },
-    viewerIdModel: {
-      type: String,
-      required: true,
-      enum: ["User", "Therapist"],
+      ref: "User",
     },
   },
   { timestamps: true }

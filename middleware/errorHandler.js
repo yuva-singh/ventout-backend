@@ -47,7 +47,6 @@ const errorHandler = (err, req, res, next) => {
         message: err.message,
       });
       break;
-
     default:
       console.error(err);
       res.json({
