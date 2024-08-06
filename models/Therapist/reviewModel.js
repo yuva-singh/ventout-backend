@@ -15,7 +15,7 @@ const reviewSchema = mongoose.Schema(
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Therapist",
+      ref: "User",
     },
     isApproved: {
       type: Boolean,
