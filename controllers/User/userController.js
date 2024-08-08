@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { User } = require("../../models/User/userModel");
+const { Wallet } = require("../../models/User/walletModel");
 const otpGenerator = require("otp-generator");
 const jwt = require("jsonwebtoken");
 const validateOTP = require("../../helper/validateOTP");
@@ -104,6 +105,11 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("User not found!");
   }
+
+  await Wallet.create({
+    balance: 0,
+    userData: userId,
+  });
 
   res.status(200).json({ message: "User registered successfully!", user });
 });

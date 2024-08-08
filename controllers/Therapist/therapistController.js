@@ -309,7 +309,10 @@ const getAllTherapist = asyncHandler(async (req, res) => {
 });
 
 const getAllTherapistForAdmin = asyncHandler(async (req, res) => {
-  const therapist = await Therapist.find().populate("category", "categoryName");
+  const therapist = await Therapist.find({ registered: true }).populate(
+    "category",
+    "categoryName"
+  );
 
   if (!therapist) {
     res.status(404);
@@ -325,6 +328,7 @@ const getAllTherapistByCategory = asyncHandler(async (req, res) => {
   const therapist = await Therapist.find({
     category: categoryId,
     isAvailable: true,
+    registered: true,
   }).populate("category", "categoryName");
 
   if (!therapist) {
