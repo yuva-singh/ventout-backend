@@ -86,7 +86,7 @@ const getSessionsForTherapists = asyncHandler(async (req, res) => {
 const getBookingHistoryForTherapist = asyncHandler(async (req, res) => {
   const therapistId = req.user;
 
-  const sessionHistory = await BookingHistory.find(therapistId)
+  const sessionHistory = await BookingHistory.find({ therapistId: therapistId })
     .populate("bookedBy", "name phone profileImg age")
     .populate("sessionId", "fees timeDuration bookingStatus");
 
