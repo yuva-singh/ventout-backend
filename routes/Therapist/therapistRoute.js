@@ -14,7 +14,8 @@ const {
   getAllTherapist,
   suspendTherapist,
   getAllTherapistForAdmin,
-  updateTherapistFees,
+  getTherapistAvailability,
+  updateFreeStatus,
 } = require("../../controllers/Therapist/therapistController");
 const router = express.Router();
 
@@ -39,12 +40,13 @@ router.patch(
   updateKYC
 );
 router.patch("/Availability", validateToken, updateAvailability);
+router.patch("/free/:id", updateFreeStatus);
 router.patch("/suspend/:id", suspendTherapist);
-router.patch("/fees/:id", updateTherapistFees);
 router.get("/all", getAllTherapist);
 router.get("/allForAdmin", getAllTherapistForAdmin);
 router.get("/all/:id", getAllTherapistByCategory);
 router.get("/profile/:id", getTherapistProfile);
+router.get("/availability/:id", getTherapistAvailability);
 router.delete("/delete", validateToken, deleteTherapistProfile);
 
 module.exports = router;

@@ -11,6 +11,12 @@ const therapistSchema = mongoose.Schema(
     fees: {
       type: Number,
     },
+    feesPerMinute: {
+      type: Number,
+    },
+    discountedFees: {
+      type: Number,
+    },
     aadharCard: {
       type: String,
     },
@@ -62,6 +68,10 @@ const therapistSchema = mongoose.Schema(
       default: false,
     },
     registered: {
+      type: Boolean,
+      default: false,
+    },
+    isFree: {
       type: Boolean,
       default: false,
     },

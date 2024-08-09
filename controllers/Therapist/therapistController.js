@@ -163,6 +163,8 @@ const updateProfile = asyncHandler(async (req, res) => {
   const {
     name,
     DOB,
+    fees,
+    discountedFees,
     gender,
     language,
     qualification,
@@ -175,6 +177,8 @@ const updateProfile = asyncHandler(async (req, res) => {
   if (
     (!name,
     !DOB,
+    !fees,
+    !discountedFees,
     !gender,
     !language,
     !qualification,
@@ -191,12 +195,17 @@ const updateProfile = asyncHandler(async (req, res) => {
     ? req.files["profileImg"][0].path
     : null;
 
+  const feesPerMinute = fees / 45;
+
   const updateTherapist = await Therapist.findByIdAndUpdate(
     therapistId,
     {
       name,
       profileImg,
       DOB,
+      fees,
+      feesPerMinute,
+      discountedFees,
       gender,
       language,
       qualification,
@@ -237,7 +246,7 @@ const updateKYC = asyncHandler(async (req, res) => {
     throw new Error("Server Error");
   }
 
-  res.status(201).json({ message: "KYC updated successfully!" });
+  res.status(200).json({ message: "KYC updated successfully!" });
 });
 
 const updateAvailability = asyncHandler(async (req, res) => {
@@ -253,7 +262,23 @@ const updateAvailability = asyncHandler(async (req, res) => {
     throw new Error("Server Error");
   }
 
-  res.status(201).json({ message: "Availability updated successfully!" });
+  res.status(200).json({ message: "Availability updated successfully!" });
+});
+
+const updateFreeStatus = asyncHandler(async (req, res) => {
+  const therapistId = req.params.id;
+  const { isFree } = req.body;
+
+  const update = await Therapist.findByIdAndUpdate(therapistId, {
+    isFree,
+  });
+
+  if (!update) {
+    res.status(500);
+    throw new Error("Server Error");
+  }
+
+  res.status(200).json({ message: "Free Status updated successfully!" });
 });
 
 const suspendTherapist = asyncHandler(async (req, res) => {
@@ -269,28 +294,7 @@ const suspendTherapist = asyncHandler(async (req, res) => {
     throw new Error("Server Error");
   }
 
-  res.status(201).json({ message: "success!" });
-});
-
-const updateTherapistFees = asyncHandler(async (req, res) => {
-  const therapistId = req.params.id;
-  const { fees } = req.body;
-
-  if (!fees) {
-    res.status(400);
-    throw new Error("Fees fiels is required!");
-  }
-
-  const updateFees = await Therapist.findByIdAndUpdate(therapistId, {
-    fees,
-  });
-
-  if (!updateFees) {
-    res.status(500);
-    throw new Error("Server Error!");
-  }
-
-  res.status(200).json({ message: "Fees updated successfully" });
+  res.status(200).json({ message: "success!" });
 });
 
 const getAllTherapist = asyncHandler(async (req, res) => {
@@ -355,6 +359,21 @@ const getTherapistProfile = asyncHandler(async (req, res) => {
   res.status(200).json(therapist);
 });
 
+const getTherapistAvailability = asyncHandler(async (req, res) => {
+  const therapistId = req.params.id;
+
+  const therapist = await Therapist.findById(therapistId).select(
+    "isAvailable isFree"
+  );
+
+  if (!therapist) {
+    res.status(404);
+    throw new Error("Therapist not found!");
+  }
+
+  res.status(200).json(therapist);
+});
+
 const deleteTherapistProfile = asyncHandler(async (req, res) => {
   const therapistId = req.user;
 
@@ -381,5 +400,6 @@ module.exports = {
   deleteTherapistProfile,
   suspendTherapist,
   getAllTherapistForAdmin,
-  updateTherapistFees,
+  getTherapistAvailability,
+  updateFreeStatus,
 };
